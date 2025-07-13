@@ -1,136 +1,110 @@
-🧠 Dağıtık Gerçek Zamanlı WebSocket Chat Uygulaması
-Bu proje, Go (Golang) dili kullanılarak geliştirilen dağıtık mimariye sahip bir gerçek zamanlı sohbet (chat) sistemidir. WebSocket, Apache Kafka ve MongoDB kullanılarak, yatayda ölçeklenebilir, performanslı ve güvenilir bir chat altyapısı sunar.
+# **🧠 Dağıtık Gerçek Zamanlı WebSocket Chat Uygulaması**
 
-🚀 Özellikler
-⚡ Gerçek zamanlı mesajlaşma (WebSocket üzerinden)
+Bu proje, Go (Golang) dili kullanılarak geliştirilen **dağıtık mimariye sahip** bir **gerçek zamanlı sohbet (chat) sistemidir**. WebSocket, Apache Kafka ve MongoDB kullanılarak, yatayda ölçeklenebilir, performanslı ve güvenilir bir chat altyapısı sunar.
 
-🔄 Kafka ile dağıtık mesaj işleme ve yük dengeleme
+## **🚀 Özellikler**
 
-🧩 MongoDB ile mesajların kalıcı olarak saklanması
+* ⚡ Gerçek zamanlı mesajlaşma (WebSocket üzerinden)  
+* 🔄 Kafka ile dağıtık mesaj işleme ve yük dengeleme  
+* 🧩 MongoDB ile mesajların kalıcı olarak saklanması  
+* 🌐 Fiber framework ile hızlı ve modern bir sunucu  
+* 🧵 Goroutine, Mutex ve Context ile yüksek eşzamanlılık  
+* ♻️ Çoklu sunucu örneğiyle (instance) çalışma desteği  
+* 🔐 (Opsiyonel) WebSocket bağlantısında JWT kimlik doğrulama  
+* 🪝 Kafka consumer ve producer yapıları  
+* 💚 react-use-websocket ile güçlü ve sade bir frontend
 
-🌐 Fiber framework ile hızlı ve modern bir sunucu
+## **🏗️ Mimarisi**
 
-🧵 Goroutine, Mutex ve Context ile yüksek eşzamanlılık
+\[Client\] ⇄ \[Fiber \+ WebSocket Sunucusu\] ⇄ \[Kafka Topic\] ⇄ \[Diğer Sunucular\] ⇄ \[MongoDB\]
 
-♻️ Çoklu sunucu örneğiyle (instance) çalışma desteği
+* Kullanıcı, WebSocket ile bağlanır ve mesaj gönderir.  
+* Mesaj Kafka topic’e yazılır.  
+* Tüm backend sunucuları bu topic'i dinler.  
+* Mesajlar hem MongoDB’ye kaydedilir hem de ilgili kullanıcılara iletilir.
 
-🔐 (Opsiyonel) WebSocket bağlantısında JWT kimlik doğrulama
+## **🛠️ Kullanılan Teknolojiler**
 
-🪝 Kafka consumer ve producer yapıları
+| Teknoloji | Açıklama |
+| :---- | :---- |
+| Go (Golang) | Backend dili |
+| Fiber | HTTP & WebSocket sunucusu |
+| Kafka | Dağıtık mesaj kuyruğu |
+| MongoDB | Veritabanı |
+| WebSocket | Gerçek zamanlı bağlantı |
+| JWT (opsiyonel) | Kimlik doğrulama |
+| React | Frontend kütüphanesi |
+| react-use-websocket | WebSocket client hook'u |
 
-💚 react-use-websocket ile güçlü ve sade bir frontend
+## **📁 Proje Yapısı**
 
-🏗️ Mimarisi
-[Client] ⇄ [Fiber + WebSocket Sunucusu] ⇄ [Kafka Topic] ⇄ [Diğer Sunucular] ⇄ [MongoDB]
+ChatAPP/  
+├── kafka/      \# Kafka reader, writer ve client bağlantıları  
+├── model/      \# Veri şemaları (MessageSchema vb.)  
+├── database/   \# MongoDB bağlantısı  
+├── main.go     \# Fiber sunucusunun başlangıç noktası  
+├── go.mod      \# Go modül yönetimi  
+└── frontend/   \# React tarafı (harici veya aynı repo içinde)
 
-Kullanıcı, WebSocket ile bağlanır ve mesaj gönderir.
+## **📦 Kurulum**
 
-Mesaj Kafka topic’e yazılır.
+### **🧰 Gerekli Araçlar**
 
-Tüm backend sunucuları bu topic'i dinler.
+* [Go](https://go.dev/dl/)  
+* [Kafka & Zookeeper](https://kafka.apache.org/quickstart)  
+* [MongoDB](https://www.mongodb.com/try/download/community)  
+* [Node.js](https://nodejs.org/) (React için)
 
-Mesajlar hem MongoDB’ye kaydedilir hem de ilgili kullanıcılara iletilir.
+### **🔧 Kafka’yı Elle Kurmak (Docker Yoksa)**
 
-🛠️ Kullanılan Teknolojiler
-Teknoloji
+1. Kafka ve Zookeeper'ı indirin: [https://kafka.apache.org/downloads](https://kafka.apache.org/downloads)  
+2. Aşağıdaki komutları sırayla farklı terminallerde çalıştırarak servisleri başlatın:  
+   \# 1\. Terminal: Zookeeper'ı başlat  
+   bin/zookeeper-server-start.sh config/zookeeper.properties  
+   \`\`\`bash  
+   \# 2\. Terminal: Kafka'yı başlat  
+   bin/kafka-server-start.sh config/server.properties  
+   \`\`\`bash  
+   \# 3\. Terminal: Gerekli topic'i oluştur  
+   bin/kafka-topics.sh \--create \--topic chat-topic \--bootstrap-server localhost:9092 \--partitions 1 \--replication-factor 1
 
-Açıklama
+## **▶️ Çalıştırma**
 
-Go (Golang)
+### **Backend**
 
-Backend dili
-
-Fiber
-
-HTTP & WebSocket sunucusu
-
-Kafka
-
-Dağıtık mesaj kuyruğu
-
-MongoDB
-
-Veritabanı
-
-WebSocket
-
-Gerçek zamanlı bağlantı
-
-JWT (opsiyonel)
-
-📁 Proje Yapısı
-ChatAPP/
-├── kafka/ # Kafka reader, writer ve client bağlantıları
-├── model/ # Veri şemaları (MessageSchema vb.)
-├── database/ # MongoDB bağlantısı
-├── main.go # Fiber sunucusunun başlangıç noktası
-├── go.mod # Go modül yönetimi
-
-📦 Kurulum
-🧰 Gerekli Araçlar
-Go
-
-Kafka & Zookeeper
-
-MongoDB
-
-🔧 Kafka’yı Elle Kurmak (Docker Yoksa)
-Kafka ve Zookeeper'ı indirin: https://kafka.apache.org/downloads
-
-Aşağıdaki komutları sırayla farklı terminallerde çalıştırarak servisleri başlatın:
-
-# 1. Terminal: Zookeeper'ı başlat
-
-bin/zookeeper-server-start.sh config/zookeeper.properties
-
-````bash
-# 2. Terminal: Kafka'yı başlat
-bin/kafka-server-start.sh config/server.properties
-```bash
-# 3. Terminal: Gerekli topic'i oluştur
-bin/kafka-topics.sh --create --topic chat-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
-
-▶️ Çalıştırma
-Backend
-# Bağımlılıkları yükle
+\# Bağımlılıkları yükle  
 go mod tidy
 
-# Sunucuyu başlat
-go run server.go
+\# Sunucuyu başlat  
+go run [main.go](http://main.go)
 
-🌍 API Uç Noktaları
-Yöntem
+**🌍 API Uç Noktaları**
 
-URL
+| Yöntem | URL | Açıklama |
+| :---- | :---- | :---- |
+| GET | /ws | WebSocket bağlantı noktası. Kimlik doğrulama için query parametresi olarak token (JWT) gönderilebilir. |
 
-Açıklama
+## **🛡️ Güvenlik**
 
-GET
+* Kullanıcı kimliğini doğrulamak için WebSocket bağlantısı sırasında JWT kullanılabilir (opsiyonel).  
+* Bir istemcinin WebSocket bağlantısı kesildiğinde, sunucudaki ilgili kaydı güvenli bir şekilde silinir.  
+* Geçersiz formatta gönderilen mesajlar işlenmez ve kullanıcıya hata mesajı döndürülür.
 
-/ws
+## **🧪 Geliştirici Notları**
 
-WebSocket bağlantı noktası. Kimlik doğrulama için query parametresi olarak token (JWT) gönderilebilir.
+* Aktif istemciler, map\[bson.ObjectID\]ConnectionInfo yapısı kullanılarak sunucu belleğinde takip edilir.  
+* Tüm sunucu örnekleri (instance) arasındaki mesaj senkronizasyonu, doğrudan bir bağlantı yerine Kafka üzerinden sağlanır. Bu, sistemin dağıtık yapısını korur.
 
-🛡️ Güvenlik
-Kullanıcı kimliğini doğrulamak için WebSocket bağlantısı sırasında JWT kullanılabilir (opsiyonel).
+## **💡 Katkıda Bulunma**
 
-Bir istemcinin WebSocket bağlantısı kesildiğinde, sunucudaki ilgili kaydı güvenli bir şekilde silinir.
+Katkılarınızı memnuniyetle karşılıyoruz\! Projeyi geliştirmek için hata bildirimi (issue) açabilir veya yeni özellikler/düzeltmeler için Pull Request (PR) gönderebilirsiniz.
 
-Geçersiz formatta gönderilen mesajlar işlenmez ve kullanıcıya hata mesajı döndürülür.
+## **📜 Lisans**
 
-🧪 Geliştirici Notları
-Aktif istemciler, map[bson.ObjectID]ConnectionInfo yapısı kullanılarak sunucu belleğinde takip edilir.
+Bu proje [MIT Lisansı](https://opensource.org/licenses/MIT) ile lisanslanmıştır.
 
-Tüm sunucu örnekleri (instance) arasındaki mesaj senkronizasyonu, doğrudan bir bağlantı yerine Kafka üzerinden sağlanır. Bu, sistemin dağıtık yapısını korur.
+## **✨ Geliştirici**
 
-💡 Katkıda Bulunma
-Katkılarınızı memnuniyetle karşılıyoruz! Projeyi geliştirmek için hata bildirimi (issue) açabilir veya yeni özellikler/düzeltmeler için Pull Request (PR) gönderebilirsiniz.
+* **👨‍💻 Abdullah Han**  
+* **📧 AbdullahHan05@proton.me**
 
-📜 Lisans
-Bu proje MIT Lisansı ile lisanslanmıştır.
-
-✨ Geliştirici
-👨‍💻 Abdullah Han
-
-📧 AbdullahHan05@proton.me
-````
