@@ -27,7 +27,6 @@ func CloseWriter() {
 }
 
 func SendMessage(roomID bson.ObjectID, body []byte) error {
-
 	message := kafka.Message{
 		Key:   []byte(roomID.String()),
 		Value: body,

@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"log"
 	"sync"
-
 	"github.com/gofiber/websocket/v2"
 	"github.com/segmentio/kafka-go"
 	"go.mongodb.org/mongo-driver/v2/bson"

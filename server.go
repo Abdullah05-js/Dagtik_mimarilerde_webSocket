@@ -5,9 +5,6 @@ import (
 	"ChatAPP/v2/kafka"
 	"ChatAPP/v2/model"
 	"encoding/json"
-	"log"
-	"os"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -15,6 +12,8 @@ import (
 	"github.com/gofiber/websocket/v2"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"log"
+	"os"
 )
 
 func main() {
@@ -70,7 +69,7 @@ func main() {
 	app.Get("/ws", websocket.New(func(c *websocket.Conn) {
 		defer c.Close()
 
-		var userID bson.ObjectID // dışarı tanımla
+		var userID bson.ObjectID
 		for {
 			_, msg, err := c.ReadMessage()
 			if err != nil {
@@ -91,9 +90,11 @@ func main() {
 				}
 				kafka.Mux.Unlock()
 			}
-
+			if err = kafka.SendMessage(message.RoomID, msg); err != nil {
+				c.WriteMessage(websocket.TextMessage, []byte(`{"error": "error while sending to kafka"}`))
+				continue
+			}
 			go message.Save()
-			_ = kafka.SendMessage(message.RoomID, msg)
 		}
 
 		kafka.Mux.Lock()
