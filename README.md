@@ -12,7 +12,6 @@ Bu proje, Go (Golang) dili kullanılarak geliştirilen **dağıtık mimariye sah
 * ♻️ Çoklu sunucu örneğiyle (instance) çalışma desteği  
 * 🔐 (Opsiyonel) WebSocket bağlantısında JWT kimlik doğrulama  
 * 🪝 Kafka consumer ve producer yapıları  
-* 💚 react-use-websocket ile güçlü ve sade bir frontend
 
 ## **🏗️ Mimarisi**
 
@@ -33,8 +32,6 @@ Bu proje, Go (Golang) dili kullanılarak geliştirilen **dağıtık mimariye sah
 | MongoDB | Veritabanı |
 | WebSocket | Gerçek zamanlı bağlantı |
 | JWT (opsiyonel) | Kimlik doğrulama |
-| React | Frontend kütüphanesi |
-| react-use-websocket | WebSocket client hook'u |
 
 ## **📁 Proje Yapısı**
 
@@ -44,7 +41,6 @@ ChatAPP/
 ├── database/   \# MongoDB bağlantısı  
 ├── main.go     \# Fiber sunucusunun başlangıç noktası  
 ├── go.mod      \# Go modül yönetimi  
-└── frontend/   \# React tarafı (harici veya aynı repo içinde)
 
 ## **📦 Kurulum**
 
@@ -53,7 +49,6 @@ ChatAPP/
 * [Go](https://go.dev/dl/)  
 * [Kafka & Zookeeper](https://kafka.apache.org/quickstart)  
 * [MongoDB](https://www.mongodb.com/try/download/community)  
-* [Node.js](https://nodejs.org/) (React için)
 
 ### **🔧 Kafka’yı Elle Kurmak (Docker Yoksa)**
 
