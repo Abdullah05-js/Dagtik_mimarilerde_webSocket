@@ -83,7 +83,12 @@ func main() {
 			}
 			if userID.IsZero() {
 				userID = message.Sender
+
 				kafka.Mux.Lock()
+				if oldConnInfo, exists := kafka.Clients[userID]; exists {
+					oldConnInfo.Conn.Close() 
+				}
+
 				kafka.Clients[userID] = kafka.ConnectionInfo{
 					RoomID: message.RoomID,
 					Conn:   c,

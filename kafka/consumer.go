@@ -4,11 +4,11 @@ import (
 	"ChatAPP/v2/model"
 	"context"
 	"encoding/json"
-	"log"
-	"sync"
 	"github.com/gofiber/websocket/v2"
 	"github.com/segmentio/kafka-go"
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"log"
+	"sync"
 )
 
 var reader *kafka.Reader
@@ -64,9 +64,7 @@ func ListenMessages() {
 			}
 
 		}
-		Mux.Unlock()
-
-		Mux.Lock()
+		// delete clients
 		for _, id := range toDelete {
 			delete(Clients, id)
 		}
